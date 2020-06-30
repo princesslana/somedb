@@ -1,7 +1,7 @@
 package com.github.princesslana.somedb;
 
 import java.sql.ResultSet;
-import java.util.function.Function;
+import java.sql.SQLException;
 import java.util.stream.Stream;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.flywaydb.core.Flyway;
@@ -116,8 +116,24 @@ public class OneDB {
    * @param <T> the return type of the mapper
    * @return a Stream of mapped results
    */
-  public <T> Stream<T> select(Function<ResultSet, T> mapper, String sql, Object... params) {
+  public <T> Stream<T> select(RowMapper<T> mapper, String sql, Object... params) {
     return withHandle(
         h -> h.select(sql, params).map((rs, ctx) -> mapper.apply(rs)).list().stream());
+  }
+
+  /**
+   * Functional interface for mapping from a ResultSet to T.
+   *
+   * @param <T> the result type of the mapping
+   */
+  public static interface RowMapper<T> {
+    /**
+     * Run the mapper for the provided ResultSet.
+     *
+     * @param rs the result set
+     * @return the mapped value
+     * @throws SQLException if there is an error with the ResultSet
+     */
+    T apply(ResultSet rs) throws SQLException;
   }
 }
