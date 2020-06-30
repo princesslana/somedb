@@ -68,4 +68,24 @@ public class Config {
   public Config withDataPath(Path path) {
     return new Config(dbName, path);
   }
+
+  /**
+   * Constructs a Config based upon the system environment. The uppercase name is used as a prefix
+   * for any environment variables.
+   *
+   * <p>{name}_DB_PATH to set the data path.
+   *
+   * @param name the name for the db
+   * @return the new Config
+   */
+  public static Config fromEnv(String name) {
+    Config cfg = new Config().withDbName(name);
+
+    var pathFromEnv = System.getenv(name.toUpperCase() + "_DB_PATH");
+    if (pathFromEnv != null) {
+      cfg = cfg.withDataPath(pathFromEnv);
+    }
+
+    return cfg;
+  }
 }

@@ -22,6 +22,15 @@ public class OneDB {
   private Jdbi jdbi;
 
   /**
+   * Creates a database with the given name, reading the Config from the system environment.
+   *
+   * @param name the db name
+   */
+  public OneDB(String name) {
+    this(Config.fromEnv(name));
+  }
+
+  /**
    * Creates a database with the provided config.
    *
    * @param config the configuration for this database
@@ -39,7 +48,7 @@ public class OneDB {
     if (jdbi == null) {
       LOG.info("Initializing database {}...", config.getDbName());
 
-      var dbName = config.getDataPath().resolve(config.getDbName()).toString();
+      var dbName = config.getDataPath().resolve(config.getDbName() + ".db").toString();
 
       var dataSource = new EmbeddedDataSource();
       dataSource.setDatabaseName(dbName);
