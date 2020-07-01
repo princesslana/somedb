@@ -12,7 +12,7 @@ public class Config {
 
   /** Construct a Config with the default values. */
   public Config() {
-    this("the_db", Paths.get("data"));
+    this("the", Paths.get("data"));
   }
 
   private Config(String dbName, Path dataPath) {
