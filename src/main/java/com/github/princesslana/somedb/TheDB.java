@@ -15,6 +15,7 @@ public class TheDB {
   private static synchronized void initialize() {
     if (db == null) {
       db = new OneDB(new Config());
+      db.initialize();
     }
   }
 
@@ -29,6 +30,7 @@ public class TheDB {
       throw new IllegalStateException("TheDB is already initialized");
     }
     db = new OneDB(name);
+    db.initialize();
   }
 
   /**
@@ -42,6 +44,7 @@ public class TheDB {
       throw new IllegalStateException("TheDB is already initialized");
     }
     db = new OneDB(config);
+    db.initialize();
   }
 
   private static OneDB getDB() {
