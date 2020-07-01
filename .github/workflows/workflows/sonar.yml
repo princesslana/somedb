@@ -1,0 +1,32 @@
+name: Sonar
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Set up JDK 
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11 
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: sonar-maven-${{ hashFiles('pom.xml') }}
+        restore-keys: sonar-maven-
+    - name: Run SonarCloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        export SMALLD_VERSION="$(git describe --dirty --tags)-SNAPSHOT"
+        export MAVEN_OPTS="-Drevision=$SMALLD_VERSION"
+        mvn -B verify sonar:sonar -Dsonar.organization=ianagbip1oti-github \
+                                  -Dsonar.host.url=https://sonarcloud.io \
+                                  -Dsonar.login=${{ secrets.SONAR_TOKEN }}
