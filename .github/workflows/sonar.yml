@@ -28,5 +28,6 @@ jobs:
         export SMALLD_VERSION="$(git describe --dirty --tags)-SNAPSHOT"
         export MAVEN_OPTS="-Drevision=$SMALLD_VERSION"
         mvn -B verify sonar:sonar -Dsonar.organization=ianagbip1oti-github \
+                                  -Dsonar.projectKey=princesslana_somedb \
                                   -Dsonar.host.url=https://sonarcloud.io \
                                   -Dsonar.login=${{ secrets.SONAR_TOKEN }}
