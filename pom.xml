@@ -276,7 +276,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Automatic-Module-Name>com.github.princesslana.smalld</Automatic-Module-Name>
+              <Automatic-Module-Name>com.github.princesslana.somedb</Automatic-Module-Name>
             </manifestEntries>
           </archive>
         </configuration>
