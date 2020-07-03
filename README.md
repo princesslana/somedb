@@ -2,6 +2,7 @@
 
 
 ![Build](https://github.com/princesslana/somedb/workflows/Build/badge.svg?branch=master)
+[![Javadocs](http://javadoc.io/badge/com.github.princesslana/somedb.svg)](http://javadoc.io/doc/com.github.princesslana/somedb)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=princesslana_somedb&metric=sqale_index)](https://sonarcloud.io/dashboard?id=princesslana_somedb)
 [![Discord](https://img.shields.io/discord/417389758470422538)](https://discord.gg/3aTVQtz)
 
@@ -15,31 +16,29 @@ It uses:
 
 ## Installing
 
-Currently SomeDB is available via [JitPack](https://jitpack.io/#princesslana/somedb)
+SomeDB can be installed from maven central.
 
-To use with Maven add the JitPack repository to your pom.xml
+In the below examples replace `LATEST_VERSION` as appropriate. The latest version is:
+![Maven Central](https://img.shields.io/maven-central/v/com.github.princesslana/somedb.svg)
 
-```xml
-<repositories>
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-</repositories>
-```
-
-Then add the dependency
+To use with maven add the following to your pom.xml.
 
 ```xml
-
 <dependency>
   <groupId>com.github.princesslana</groupId>
   <artifactId>somedb</artifactId>
-  <version>master-SNAPSHOT</version>
+  <version>LATEST_VERSION</version>
 </dependency>
 ```
 
-Instructions for Gradle can be found on [JitPack](https://jitpack.io/#princesslana/somedb)
+For gradle:
+
+```groovy
+compile group: 'com.github.princesslana', name: 'somedb', version: 'LATEST_VERSION'
+```
+
+To use the latest development version SomeDB is available via
+[JitPack](https://jitpack.io/#princesslana/somedb)
 
 ## Getting Started
 
