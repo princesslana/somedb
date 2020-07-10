@@ -75,6 +75,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
+      <artifactId>derbyclient</artifactId>
+      <version>${lib.derby.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
       <artifactId>derbytools</artifactId>
       <version>${lib.derby.version}</version>
     </dependency>
@@ -96,11 +101,6 @@
     <dependency>
       <groupId>org.jooq</groupId>
       <artifactId>jooq-meta</artifactId>
-      <version>${lib.jooq.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq-meta-extensions</artifactId>
       <version>${lib.jooq.version}</version>
     </dependency>
     <dependency>
@@ -196,6 +196,7 @@
           <ignoredUnusedDeclaredDependencies>
             <!-- required for derbytools -->
             <ignoredUnusedDeclaredDependency>org.apache.derby:derby</ignoredUnusedDeclaredDependency>
+            <ignoredUnusedDeclaredDependency>org.apache.derby:derbyclient</ignoredUnusedDeclaredDependency>
             <!-- On the test classpath to produce log output during tests -->
             <ignoredUnusedDeclaredDependency>org.slf4j:slf4j-simple</ignoredUnusedDeclaredDependency>
           </ignoredUnusedDeclaredDependencies>
