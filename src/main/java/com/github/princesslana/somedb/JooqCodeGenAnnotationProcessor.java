@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
+import javax.annotation.processing.FilerException;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
@@ -99,7 +100,11 @@ public class JooqCodeGenAnnotationProcessor extends AbstractProcessor {
     // after codegen), which is ok because they get implicitly compiled.
     // We do get a warning from the compiler because of this though.
     for (var name : Set.of(".Tables", ".Indexes", ".DefaultSchema", ".DefaultCatalog")) {
-      touch(filer.createSourceFile(annotation.packageName() + name));
+      try {
+        touch(filer.createSourceFile(annotation.packageName() + name));
+      } catch (FilerException e) {
+        // this is expected if the files exist from a previous run
+      }
     }
 
     var generate = new GenerationTool();
