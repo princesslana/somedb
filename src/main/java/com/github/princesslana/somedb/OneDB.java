@@ -3,12 +3,16 @@ package com.github.princesslana.somedb;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Stream;
+import javax.sql.DataSource;
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.flywaydb.core.Flyway;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.HandleConsumer;
 import org.jdbi.v3.core.Jdbi;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +23,7 @@ public class OneDB {
 
   private final Config config;
 
-  private Jdbi jdbi;
+  private EmbeddedDataSource dataSource;
 
   /**
    * Creates a database with the given name, reading the Config from the system environment.
@@ -45,19 +49,22 @@ public class OneDB {
    * performed at a known time (e.g., on startup).
    */
   public synchronized void initialize() {
-    if (jdbi == null) {
+    if (dataSource == null) {
       LOG.info("Initializing database {}...", config.getDbName());
 
       var dbName = config.getDataPath().resolve(config.getDbName() + ".db").toString();
 
-      var dataSource = new EmbeddedDataSource();
+      dataSource = new EmbeddedDataSource();
       dataSource.setDatabaseName(dbName);
       dataSource.setCreateDatabase("create");
 
       Flyway.configure().dataSource(dataSource).load().migrate();
-
-      jdbi = Jdbi.create(dataSource);
     }
+  }
+
+  private DataSource getDataSource() {
+    initialize();
+    return dataSource;
   }
 
   /**
@@ -66,11 +73,17 @@ public class OneDB {
    *
    * @return the Jdbi instance
    */
-  public synchronized Jdbi getJdbi() {
-    if (jdbi == null) {
-      initialize();
-    }
-    return jdbi;
+  public Jdbi jdbi() {
+    return Jdbi.create(getDataSource());
+  }
+
+  /**
+   * Entrypoint for using the Jooq DSL.
+   *
+   * @return the Jooq DSLContext
+   */
+  public DSLContext jooq() {
+    return DSL.using(getDataSource(), SQLDialect.DERBY);
   }
 
   /**
@@ -79,7 +92,7 @@ public class OneDB {
    * @return an open Handle instance
    */
   public Handle open() {
-    return getJdbi().open();
+    return jdbi().open();
   }
 
   /**
@@ -90,7 +103,7 @@ public class OneDB {
    * @throws X if consumer does
    */
   public <X extends Exception> void useHandle(HandleConsumer<X> consumer) throws X {
-    getJdbi().useHandle(consumer);
+    jdbi().useHandle(consumer);
   }
 
   /**
@@ -103,7 +116,7 @@ public class OneDB {
    * @throws X if callback does
    */
   public <R, X extends Exception> R withHandle(HandleCallback<R, X> callback) throws X {
-    return getJdbi().withHandle(callback);
+    return jdbi().withHandle(callback);
   }
 
   /**
