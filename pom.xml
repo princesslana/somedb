@@ -44,6 +44,7 @@
     <lib.derby.version>10.15.2.0</lib.derby.version>
     <lib.flyway.version>6.4.4</lib.flyway.version>
     <lib.jdbi.version>3.14.1</lib.jdbi.version>
+    <lib.jooq.version>3.13.2</lib.jooq.version>
     <lib.slf4j.version>1.7.25</lib.slf4j.version>
     <plugin.checkstyle.version>3.0.0</plugin.checkstyle.version>
     <plugin.clean.version>3.1.0</plugin.clean.version>
@@ -74,6 +75,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
+      <artifactId>derbyclient</artifactId>
+      <version>${lib.derby.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
       <artifactId>derbytools</artifactId>
       <version>${lib.derby.version}</version>
     </dependency>
@@ -88,6 +94,21 @@
       <version>${lib.jdbi.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>jooq</artifactId>
+      <version>${lib.jooq.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>jooq-codegen</artifactId>
+      <version>${lib.jooq.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>jooq-meta</artifactId>
+      <version>${lib.jooq.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${lib.slf4j.version}</version>
@@ -96,7 +117,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${lib.slf4j.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -157,6 +177,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${plugin.compiler.version}</version>
         <configuration>
+          <proc>none</proc>
           <compilerArgument>-Xlint:all</compilerArgument>
         </configuration>
       </plugin>
@@ -180,6 +201,7 @@
           <ignoredUnusedDeclaredDependencies>
             <!-- required for derbytools -->
             <ignoredUnusedDeclaredDependency>org.apache.derby:derby</ignoredUnusedDeclaredDependency>
+            <ignoredUnusedDeclaredDependency>org.apache.derby:derbyclient</ignoredUnusedDeclaredDependency>
             <!-- On the test classpath to produce log output during tests -->
             <ignoredUnusedDeclaredDependency>org.slf4j:slf4j-simple</ignoredUnusedDeclaredDependency>
           </ignoredUnusedDeclaredDependencies>

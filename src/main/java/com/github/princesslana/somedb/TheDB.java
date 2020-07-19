@@ -4,6 +4,8 @@ import java.util.stream.Stream;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.HandleConsumer;
+import org.jdbi.v3.core.Jdbi;
+import org.jooq.DSLContext;
 
 /** Provides a static/singleton interface to a single database. */
 public class TheDB {
@@ -52,6 +54,25 @@ public class TheDB {
       initialize();
     }
     return db;
+  }
+
+  /**
+   * Provides access to the Jdbi instance. The methods on OneDB are designed to cover the most
+   * common use cases. The Jdbi instance is available if they do not fit your needs.
+   *
+   * @return the Jdbi instance
+   */
+  public static Jdbi jdbi() {
+    return getDB().jdbi();
+  }
+
+  /**
+   * Entrypoint for using the Jooq DSL.
+   *
+   * @return the Jooq DSLContext
+   */
+  public static DSLContext jooq() {
+    return getDB().jooq();
   }
 
   /**
