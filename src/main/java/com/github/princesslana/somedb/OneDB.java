@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 import javax.sql.DataSource;
-import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.flywaydb.core.Flyway;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.HandleCallback;
@@ -15,6 +14,7 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sqlite.SQLiteDataSource;
 
 /** A single database. */
 public class OneDB {
@@ -23,7 +23,7 @@ public class OneDB {
 
   private final Config config;
 
-  private EmbeddedDataSource dataSource;
+  private SQLiteDataSource dataSource;
 
   /**
    * Creates a database with the given name, reading the Config from the system environment.
@@ -54,9 +54,8 @@ public class OneDB {
 
       var dbName = config.getDataPath().resolve(config.getDbName() + ".db").toString();
 
-      dataSource = new EmbeddedDataSource();
-      dataSource.setDatabaseName(dbName);
-      dataSource.setCreateDatabase("create");
+      dataSource = new SQLiteDataSource();
+      dataSource.setUrl("jdbc:sqlite:" + dbName);
 
       Flyway.configure().dataSource(dataSource).load().migrate();
     }
@@ -83,7 +82,7 @@ public class OneDB {
    * @return the Jooq DSLContext
    */
   public DSLContext jooq() {
-    return DSL.using(getDataSource(), SQLDialect.DERBY);
+    return DSL.using(getDataSource(), SQLDialect.SQLITE);
   }
 
   /**

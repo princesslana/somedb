@@ -18,13 +18,13 @@ import javax.sql.DataSource;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
-import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.flywaydb.core.Flyway;
 import org.jooq.codegen.GenerationTool;
 import org.jooq.meta.jaxb.Configuration;
 import org.jooq.meta.jaxb.Database;
 import org.jooq.meta.jaxb.Generator;
 import org.jooq.meta.jaxb.Target;
+import org.sqlite.SQLiteDataSource;
 
 /** Process the EnableJooqCodeGen annotation and run code gen for Jooq. */
 @SupportedAnnotationTypes("com.github.princesslana.somedb.EnableJooqCodeGen")
@@ -62,21 +62,19 @@ public class JooqCodeGenAnnotationProcessor extends AbstractProcessor {
   }
 
   private DataSource getTemporaryDb() throws IOException {
+    // Jooq codegen does not work from an in-memory db. I have yet to track down why
     var dbName = Files.createTempDirectory("somedb").toAbsolutePath().resolve("jooq.db").toString();
 
-    var dataSource = new EmbeddedDataSource();
-    dataSource.setDatabaseName(dbName);
-    dataSource.setCreateDatabase("create");
-
+    var dataSource = new SQLiteDataSource();
+    dataSource.setUrl("jdbc:sqlite:" + dbName);
     return dataSource;
   }
 
   private Configuration getCodeGenerationConfiguration(String packageName) throws IOException {
     var db =
         new Database()
-            .withName("org.jooq.meta.derby.DerbyDatabase")
+            .withName("org.jooq.meta.sqlite.SQLiteDatabase")
             .withExcludes("flyway_.*")
-            .withInputSchema("APP")
             .withOutputSchemaToDefault(true);
 
     var target =
@@ -99,7 +97,7 @@ public class JooqCodeGenAnnotationProcessor extends AbstractProcessor {
     // We don't do this for our schema specific files (we don't know what they are until
     // after codegen), which is ok because they get implicitly compiled.
     // We do get a warning from the compiler because of this though.
-    for (var name : Set.of(".Tables", ".Indexes", ".DefaultSchema", ".DefaultCatalog")) {
+    for (var name : Set.of(".Tables", ".DefaultSchema", ".DefaultCatalog")) {
       try {
         touch(filer.createSourceFile(annotation.packageName() + name));
       } catch (FilerException e) {

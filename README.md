@@ -11,7 +11,8 @@ An opinionated library that provides a simple way to run an embedded, file backe
 It uses:
 
 * [Flyway](https://flywaydb.org/) for schema migrations,
-* [Apache Derby](http://db.apache.org/derby/) for the database, and
+* [SQLite](https://sqlite.org/) (via [sqlite-jdbc](https://github.com/xerial/sqlite-jdbc))
+  for the database, and
 * [JDBI](https://jdbi.org/) or [jOOQ](https://jooq.org) for executing SQL.
 
 ## Installing
