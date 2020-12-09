@@ -5,7 +5,6 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.HandleConsumer;
 import org.jdbi.v3.core.Jdbi;
-import org.jooq.DSLContext;
 
 /** Provides a static/singleton interface to a single database. */
 public class TheDB {
@@ -64,15 +63,6 @@ public class TheDB {
    */
   public static Jdbi jdbi() {
     return getDB().jdbi();
-  }
-
-  /**
-   * Entrypoint for using the Jooq DSL.
-   *
-   * @return the Jooq DSLContext
-   */
-  public static DSLContext jooq() {
-    return getDB().jooq();
   }
 
   /**

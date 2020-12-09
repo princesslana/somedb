@@ -9,9 +9,6 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.HandleCallback;
 import org.jdbi.v3.core.HandleConsumer;
 import org.jdbi.v3.core.Jdbi;
-import org.jooq.DSLContext;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sqlite.SQLiteDataSource;
@@ -74,15 +71,6 @@ public class OneDB {
    */
   public Jdbi jdbi() {
     return Jdbi.create(getDataSource());
-  }
-
-  /**
-   * Entrypoint for using the Jooq DSL.
-   *
-   * @return the Jooq DSLContext
-   */
-  public DSLContext jooq() {
-    return DSL.using(getDataSource(), SQLDialect.SQLITE);
   }
 
   /**

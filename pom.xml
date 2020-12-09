@@ -43,7 +43,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.flyway.version>6.4.4</lib.flyway.version>
     <lib.jdbi.version>3.14.1</lib.jdbi.version>
-    <lib.jooq.version>3.13.2</lib.jooq.version>
     <lib.slf4j.version>1.7.25</lib.slf4j.version>
     <lib.sqlite-jdbc.version>3.32.3.3</lib.sqlite-jdbc.version>
     <plugin.checkstyle.version>3.0.0</plugin.checkstyle.version>
@@ -77,21 +76,6 @@
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-core</artifactId>
       <version>${lib.jdbi.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq</artifactId>
-      <version>${lib.jooq.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq-codegen</artifactId>
-      <version>${lib.jooq.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jooq</groupId>
-      <artifactId>jooq-meta</artifactId>
-      <version>${lib.jooq.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
