@@ -13,7 +13,7 @@ It uses:
 * [Flyway](https://flywaydb.org/) for schema migrations,
 * [SQLite](https://sqlite.org/) (via [sqlite-jdbc](https://github.com/xerial/sqlite-jdbc))
   for the database, and
-* [JDBI](https://jdbi.org/) or [jOOQ](https://jooq.org) for executing SQL.
+* [JDBI](https://jdbi.org/) for executing SQL.
 
 ## Installing
 
@@ -107,33 +107,6 @@ Stream<FavoriteColor> colors = TheDB.execute(
   "select username, color from favorite_color where username = ?",
   name);
 ```
-
-## Using jOOQ
-
-To enable jOOQ's code generation the `@EnableJooqCodeGen` annotation should be added
-to one of your classes. It must be configured with the package name where the generated
-classes should be created.
-
-```java
-import com.github.princesslana.somedb.EnableJooqCodeGen;
-
-@EnbaleJooqCodeGen(packageName = "com.github.princesslana.myapp.db")
-public class Main {
-  ...
-}
-```
-
-To use the generated classes you can access jOOQ's DSL using `TheDB.jooq()`.
-
-```java
-TheDB.jooq()
-     .select(USERS.USERNAME, USERS.COLOR)
-     .from(USERS)
-     .where(USERS.USERNAME.eq(username)
-     .fetchAny();
-```
-
-
 ## About Singletons
 
 To say that the Singleton design pattern is controversial would be an understatement.
