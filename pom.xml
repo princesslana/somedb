@@ -44,7 +44,7 @@
     <lib.flyway.version>6.4.4</lib.flyway.version>
     <lib.jdbi.version>3.14.1</lib.jdbi.version>
     <lib.slf4j.version>1.7.25</lib.slf4j.version>
-    <lib.sqlite-jdbc.version>3.32.3.3</lib.sqlite-jdbc.version>
+    <lib.sqlite-jdbc.version>3.41.2.2</lib.sqlite-jdbc.version>
     <plugin.checkstyle.version>3.0.0</plugin.checkstyle.version>
     <plugin.clean.version>3.1.0</plugin.clean.version>
     <plugin.compiler.version>3.8.0</plugin.compiler.version>
